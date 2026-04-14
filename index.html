@@ -133,20 +133,20 @@
     }
 
     .app{
-      position:relative;
-      width:1100px;
-      max-width:94vw;
-      background:var(--glass);
-      backdrop-filter:blur(18px);
-      border:1px solid var(--border);
-      border-radius:36px;
-      padding:36px;
-      box-shadow:0 40px 120px rgba(0,0,0,.6);
-      opacity:0;
-      transform:translateY(120px) scale(.96);
-      transition:none;
-      will-change:transform, opacity;
-      pointer-events:auto;
+    position:relative;
+    width:1100px;
+    max-width:94vw;
+    background:var(--glass);
+    backdrop-filter:blur(18px);
+    border:1px solid var(--border);
+    border-radius:36px;
+    padding:36px;
+    box-shadow:0 40px 120px rgba(0,0,0,.6);
+    opacity:0;
+    transform:translateY(120px) scale(.96);
+    transition:none;
+    will-change:transform, opacity;
+    pointer-events:none;
     }
 
     .results:empty,
@@ -644,6 +644,7 @@
 
     app.style.opacity = appProgress;
     app.style.transform = `translateY(${120 - appProgress * 120}px) scale(${0.96 + appProgress * 0.04})`;
+    app.style.pointerEvents = appProgress > 0.98 ? "auto" : "none";
   }
 
   ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
