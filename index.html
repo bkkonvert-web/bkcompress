@@ -504,6 +504,9 @@
   const heroSecond = document.getElementById("heroSecond");
   const story = document.getElementById("story");
   const selectedCompression = document.getElementById("selectedCompression");
+ 
+  imgDrop.style.pointerEvents = "none";
+  compressBtn.style.pointerEvents = "none";
   
   let files = [];
 
@@ -644,7 +647,11 @@
 
     app.style.opacity = appProgress;
     app.style.transform = `translateY(${120 - appProgress * 120}px) scale(${0.96 + appProgress * 0.04})`;
-    app.style.pointerEvents = appProgress > 0.98 ? "auto" : "none";
+    
+    const isInteractive = appProgress > 0.98;
+    app.style.pointerEvents = isInteractive ? "auto" : "none";
+    imgDrop.style.pointerEvents = isInteractive ? "auto" : "none";
+    compressBtn.style.pointerEvents = isInteractive ? "auto" : "none";
   }
 
   ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
