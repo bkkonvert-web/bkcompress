@@ -413,6 +413,7 @@
         transform-box:view-box;
         transform-origin:12px 8px;
       }
+      
       .controls{
         grid-template-columns:1fr;
       }
@@ -674,8 +675,12 @@
     if(appProgress > 1) appProgress = 1;
 
     const lockProgress = Math.min(Math.max(appProgress, 0), 1);
-    const lockRotation = -40 + (28 * lockProgress);
-    lockShackleGroup.style.transform = `rotate(${lockRotation}deg)`;
+    
+    const lockRotation = -42 + (42 * lockProgress);
+    const lockShiftX = -2.2 + (2.2 * lockProgress);
+    
+    lockShackleGroup.style.transform =
+      `translateX(${lockShiftX}px) rotate(${lockRotation}deg)`;
 
     app.style.opacity = appProgress;
     app.style.transform = `translateY(${120 - appProgress * 120}px) scale(${0.96 + appProgress * 0.04})`;
