@@ -165,7 +165,24 @@
       z-index:-1;
       pointer-events:none;
     }
-
+    
+    .app-contact{
+      position:absolute;
+      right:24px;
+      bottom:18px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    
+    .app-contact a{
+      color:var(--muted);
+      text-decoration:none;
+    }
+    
+    .app-contact a:hover{
+      text-decoration:underline;
+    }
+    
     header{
       display:flex;
       justify-content:space-between;
@@ -514,6 +531,8 @@
         <div class="status" id="status"></div>
         <div class="results" id="results"></div>
         <div class="selected-compression" id="selectedCompression"></div>
+        <div class="app-contact">
+          <a href="mailto:bkkonverthelp@gmail.com">Contact: bkkonverthelp@gmail.com</a>
       </div>
     </div>
 
