@@ -403,6 +403,18 @@
         font-size:16px;
       }
 
+      .lock-icon{
+        width:46px;
+        height:46px;
+        overflow:visible;
+      }
+      
+      #lockShackle{
+        transform-box:fill-box;
+        transform-origin:top right;
+        transition:transform .18s linear;
+      }
+      
       .controls{
         grid-template-columns:1fr;
       }
@@ -439,7 +451,7 @@
     <div class="hero hero-second" id="heroSecond">
       <div class="hero-content">
         <h2>Bezpečnost na prvním místě</h2>
-        <p class="hero-note">Komprese probíhá přímo ve vašem prohlížeči.</p>
+        <p class="hero-note">Obrázky neopouštějí váš prohlížeč.</p>
       </div>
     </div>
 
@@ -462,11 +474,27 @@
           </div>
 
           <div class="images-badge" aria-label="Bezpečné">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <rect x="5" y="10" width="14" height="10" rx="3" stroke="currentColor" stroke-width="2"/>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="lock-icon" id="lockIcon">
+              <path
+                id="lockShackle"
+                d="M8 10V8.6a4 4 0 0 1 8 0V10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <rect
+                x="5"
+                y="10"
+                width="14"
+                height="10"
+                rx="3"
+                stroke="currentColor"
+                stroke-width="2"
+              />
             </svg>
           </div>
+          
         </header>
 
         <div class="drop" id="imgDrop">Klikněte nebo přetáhněte obrázky</div>
@@ -505,7 +533,8 @@
   const heroSecond = document.getElementById("heroSecond");
   const story = document.getElementById("story");
   const selectedCompression = document.getElementById("selectedCompression");
- 
+  const lockShackle = document.getElementById("lockShackle");
+  
   imgDrop.style.pointerEvents = "none";
   compressBtn.style.pointerEvents = "none";
   
@@ -633,6 +662,10 @@
     let secondProgress = Math.max((progress - 0.30) / 0.25, 0);
     if(secondProgress > 1) secondProgress = 1;
 
+    const lockProgress = Math.min(Math.max(secondProgress, 0), 1);
+    const lockRotation = -28 + (28 * lockProgress);
+    lockShackle.style.transform = `rotate(${lockRotation}deg)`;
+    
     let secondFadeOut = Math.max((progress - 0.84) / 0.10, 0);
     if(secondFadeOut > 1) secondFadeOut = 1;
 
