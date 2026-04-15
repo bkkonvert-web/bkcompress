@@ -409,12 +409,10 @@
         overflow:visible;
       }
       
-      #lockShackle{
-        transform-box:fill-box;
-        transform-origin:top right;
-        transition:transform .18s linear;
+      #lockShackleGroup{
+        transform-box:view-box;
+        transform-origin:12px 8px;
       }
-      
       .controls{
         grid-template-columns:1fr;
       }
@@ -474,15 +472,16 @@
           </div>
 
           <div class="images-badge" aria-label="Bezpečné">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="lock-icon" id="lockIcon">
-              <path
-                id="lockShackle"
-                d="M8 10V8.6a4 4 0 0 1 8 0V10"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="lock-icon">
+              <g id="lockShackleGroup">
+                <path
+                  d="M8 10V8.6a4 4 0 0 1 8 0V10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
               <rect
                 x="5"
                 y="10"
@@ -533,8 +532,7 @@
   const heroSecond = document.getElementById("heroSecond");
   const story = document.getElementById("story");
   const selectedCompression = document.getElementById("selectedCompression");
-  const lockShackle = document.getElementById("lockShackle");
-  
+  const lockShackleGroup = document.getElementById("lockShackleGroup");  
   imgDrop.style.pointerEvents = "none";
   compressBtn.style.pointerEvents = "none";
   
@@ -661,10 +659,10 @@
 
     let secondProgress = Math.max((progress - 0.30) / 0.25, 0);
     if(secondProgress > 1) secondProgress = 1;
-
+    
     const lockProgress = Math.min(Math.max(secondProgress, 0), 1);
     const lockRotation = -28 + (28 * lockProgress);
-    lockShackle.style.transform = `rotate(${lockRotation}deg)`;
+    lockShackleGroup.style.transform = `rotate(${lockRotation}deg)`;
     
     let secondFadeOut = Math.max((progress - 0.84) / 0.10, 0);
     if(secondFadeOut > 1) secondFadeOut = 1;
