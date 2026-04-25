@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<title>Komprimovač obrázků JPG & PNG</title>
-<link rel="shortcut icon" href="/favicon.png">
+<title>Komprimovač obrázků</title>
+<link rel="icon" type="image/png" href="/bklogo.png">
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3037236608651508"
   crossorigin="anonymous">
@@ -109,22 +109,21 @@ body{
   letter-spacing:-0.03em;
 }
 
-
 .app{
-position:relative;
-width:1100px;
-max-width:94vw;
-background:var(--glass);
-backdrop-filter:blur(18px);
-border:1px solid var(--border);
-border-radius:36px;
-padding:36px;
-box-shadow:0 40px 120px rgba(0,0,0,.6);
-opacity:0;
-transform:translateY(120px) scale(.96);
-transition:none;
-will-change:transform, opacity;
-pointer-events:none;
+  position:relative;
+  width:1100px;
+  max-width:94vw;
+  background:var(--glass);
+  backdrop-filter:blur(18px);
+  border:1px solid var(--border);
+  border-radius:36px;
+  padding:36px;
+  box-shadow:none;
+  opacity:1 !important;
+  transform:none !important;
+  transition:none;
+  will-change:transform, opacity;
+  pointer-events:auto !important;
 }
 
 .results:empty,
@@ -263,6 +262,11 @@ input[type="range"]::-moz-range-thumb{
   grid-template-columns:repeat(3, 1fr);
   gap:12px;
   width:100%;
+}
+
+#compressBtn,
+.compress-level-btn{
+  line-height:1.1;
 }
 
 .compress-level-btn{
@@ -669,6 +673,7 @@ input[type="range"]::-moz-range-thumb{
   order:3;
 }
 .compress-wrap{
+  order:1;
   position:relative;
   inset:auto;
   width:100%;
@@ -843,12 +848,41 @@ input[type="range"]::-moz-range-thumb{
   flex-shrink:0;
 }
 
+.desktop-greeting{
+  position:absolute;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 72px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  pointer-events:none;
+  z-index:4;
+}
+
+#desktopGreeting{
+  display:inline-block;
+  font-size:clamp(30px, 3.2vw, 42px);
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-0.02em;
+  color:#eef2ff;
+  opacity:.96;
+  transition:opacity .3s ease, transform .3s ease;
+}
+
 
 /* ===== MOBILE VERSION ===== */
 @media (max-width: 768px){
   body{
     display:flex;
     flex-direction:column;
+  }
+
+  .desktop-greeting{
+    display:none !important;
   }
 
   .hero,
@@ -879,7 +913,7 @@ input[type="range"]::-moz-range-thumb{
   }
 
   .drop-text-desktop{
-  display:none;
+   display:none;
   }
 
   .drop-text-mobile{
@@ -897,7 +931,7 @@ input[type="range"]::-moz-range-thumb{
   }
 
   .hero{
-  order:2;
+    order:2;
   }
 
   .hero{
@@ -1196,8 +1230,44 @@ input[type="range"]::-moz-range-thumb{
     order:4;
   }
 
+  .controls{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+    margin-top:16px;
+  }
+
+  .compression-buttons{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:8px;
+    width:100%;
+  }
+
+  .compress-level-btn{
+    width:100%;
+    height:56px;
+    min-width:0;
+    padding:0;
+    border-radius:18px;
+    font-size:16px;
+  }
+
+  #compressBtn{
+    width:100%;
+    height:60px;
+    padding:0 16px;
+    border-radius:20px;
+    font-size:17px;
+    line-height:1.15;
+  }
+
+  #compressBtn:hover,
+  .compress-level-btn:hover{
+    transform:none;
+  }
   
-  
+
 }
 
 
@@ -1240,6 +1310,9 @@ input[type="range"]::-moz-range-thumb{
 
     <div class="compress-wrap">
       <div class="app" id="app">
+        <div class="desktop-greeting" aria-hidden="true">
+          <span id="desktopGreeting">Dobrý den,</span>
+        </div>
         <header>
           <div class="logo">
             <svg class="compress-logo-icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
@@ -1427,7 +1500,60 @@ input[type="range"]::-moz-range-thumb{
   const shareBtn = document.getElementById("shareBtn");
   const shareMenu = document.getElementById("shareMenu");
   const themeToggle = document.getElementById("themeToggle");
+  const desktopGreeting = document.getElementById("desktopGreeting");
   const mobileMedia = window.matchMedia("(max-width: 768px)");
+
+if (desktopGreeting && window.innerWidth > 768) {
+  const greetings = [
+    "Dobrý den,",
+    "Dobrý deň,",
+    "Ahoj,",
+    "Ahojte,",
+    "Čau,",
+    "Čaute,",
+    "Nazdar,",
+    "Zdarec,",
+    "Servus,",
+    "Pozdrav pánbůh,",
+    "Vítejte.",
+    "Vitajte."
+  ];
+
+  let greetingIndex = 1;
+
+  function hideGreeting() {
+    desktopGreeting.style.opacity = "0";
+    desktopGreeting.style.transform = "translateY(-8px)";
+
+    setTimeout(() => {
+      const wrap = desktopGreeting.closest(".desktop-greeting");
+      if (wrap) {
+        wrap.style.display = "none";
+      }
+    }, 320);
+  }
+
+  function showNextGreeting() {
+    if (greetingIndex >= greetings.length) {
+      hideGreeting();
+      return;
+    }
+
+    desktopGreeting.style.opacity = "0";
+    desktopGreeting.style.transform = "translateY(8px)";
+
+    setTimeout(() => {
+      desktopGreeting.textContent = greetings[greetingIndex];
+      desktopGreeting.style.opacity = ".96";
+      desktopGreeting.style.transform = "translateY(0)";
+      greetingIndex++;
+
+      setTimeout(showNextGreeting, 750);
+    }, 280);
+  }
+
+  setTimeout(showNextGreeting, 750);
+}
 
 function applySavedTheme() {
   const savedTheme = localStorage.getItem("bkcompress-mobile-theme");
